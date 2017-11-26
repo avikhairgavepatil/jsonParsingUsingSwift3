@@ -24,7 +24,8 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         super.viewDidLoad()
         TableView.dataSource = self;
         TableView.dataSource = self;
-        TableView.register(CustomTableViewCell.self, forCellReuseIdentifier: cellId);
+        let cellNib = UINib(nibName: "CustomTableViewCell", bundle: nil);
+        TableView.register(cellNib, forCellReuseIdentifier: cellId);
         let service = ApiService()
         service.getDataWith(url: endPoint ){ (result) in
             switch result {
@@ -53,7 +54,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         
     
         
-            
+              //var d = array["items"] as! [[String: AnyObject]]
             //var items = array["items"] as! [[String: AnyObject]];
             
           
@@ -62,6 +63,8 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
                 let name = array[i]["title"];
                 let desc = array[i]["description"];
                 let img =  array[i]["link"];
+                //print(name)
+                //print(desc!);
                 model = ModelClass(desc: desc as! String, title: name as! String, img: img as! String)
                 
                 ModelArray.append(model);
@@ -84,7 +87,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         ModelArray.removeAll();
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 0;
+        return 1;
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ModelArray.count;
@@ -92,7 +95,9 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell;
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId) as! CustomTableViewCell
+        
+        print(ModelArray[indexPath.row].desc)
         cell.descriptionLabel.text = ModelArray[indexPath.row].desc;
         cell.titleLabel.text = ModelArray[indexPath.row].title;
         //cell.ImageView.image = ModelArray[indexPath.row].image;

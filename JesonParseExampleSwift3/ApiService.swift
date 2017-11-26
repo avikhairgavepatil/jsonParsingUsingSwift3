@@ -9,7 +9,10 @@
 import Foundation
 class ApiService:NSObject
 {
-
+    let query = "dogs"
+    lazy var endPoint: String = {
+        return "https://api.flickr.com/services/feeds/photos_public.gne?format=json&tags=\(self.query)&nojsoncallback=1#"
+    }();
     
     func getDataWith(url:String,completion: @escaping (Result<[[String: AnyObject]]>) -> Void) {
         
