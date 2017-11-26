@@ -22,10 +22,21 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // automatic increase hight according to text content cell;
+        TableView.estimatedRowHeight = 44.0;
+        TableView.rowHeight = UITableViewAutomaticDimension;
+        
+        // set table view delegate
         TableView.dataSource = self;
         TableView.dataSource = self;
+        
+        // register table view cell with xib
         let cellNib = UINib(nibName: "CustomTableViewCell", bundle: nil);
         TableView.register(cellNib, forCellReuseIdentifier: cellId);
+        
+        //  call Api service
+    
         let service = ApiService()
         service.getDataWith(url: endPoint ){ (result) in
             switch result {
@@ -52,10 +63,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     }
     private func saveInCoreDataWith(array: [[String: AnyObject]]) {
         
-    
-        
-              //var d = array["items"] as! [[String: AnyObject]]
-            //var items = array["items"] as! [[String: AnyObject]];
+
             
           
              for i in 0  ..< array.count
@@ -63,8 +71,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
                 let name = array[i]["title"];
                 let desc = array[i]["description"];
                 let img =  array[i]["link"];
-                //print(name)
-                //print(desc!);
+
                 model = ModelClass(desc: desc as! String, title: name as! String, img: img as! String)
                 
                 ModelArray.append(model);
@@ -105,6 +112,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         
         return  cell;
     }
+  
 
    
 }
